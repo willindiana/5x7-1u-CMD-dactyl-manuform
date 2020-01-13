@@ -2,23 +2,16 @@
 
 This is a fork of the [Dactyl-ManuForm](https://github.com/tshort/dactyl-keyboard). The Dactyl-Manuform is a fork of the [Dactyl](https://github.com/adereth/dactyl-keyboard) with the thumb cluster from [ManuForm](https://github.com/jeffgran/ManuForm).
 
-Build log: https://www.beekeeb.com/dactyl-manuform-mini-mechanical-keyboard-build-log/
-
-## Forks
-
-- https://github.com/lebastaq/dactyl-manuform-mini-keyboard
-
 ## Features
 
 - The use of sidenubs can be disabled. Sidenub should be disabled if you use Kailh, and Outemu. If you use Cherry MX, Gateron or Zealios switches, you can enable the sidenubs.
-- Spaces for rentention tabs are added.
-- One key in the thumb cluster has been removed. Other thumb keys are also adjusted.
-- The total height is reduced and wire posts are removed. This results in a
-  higher printing speed and a lower cost.
-- A TRRS mount instead of a RJ9 mount is used.
-- A micro USB mount is used. A breakout board, or an extension cable can be used.
-- Screw posts are moved inside. The holes are designed for TRISERT® thread inserts 145m3.
-- The pro micro holder has been modified. Dupont cables can be used.
+- Toggle for outer column between using 1.5u sized keys and 1u sized keys.
+- If enabled, the rows which use 1.5u sized keys can be specified.
+- Toggle for an extra row of keys for the outer column(s).
+- Toggle for an extra inner column before the thumbcluster with (nrows-2) rows.
+- Toggle between using the default thumb cluster and mini thumb cluster designed by l4u.
+- Removable controller board / TRRS jack holder as a separate part. This holder is then friction fit into a cutout on the back wall of the case. Designed for common TRRS breakout boards. 
+- Models for both pro-micro and elite-c holders. 
 
 ## Generate OpenSCAD and STL models
 
