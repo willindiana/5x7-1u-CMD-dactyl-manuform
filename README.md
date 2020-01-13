@@ -11,7 +11,7 @@ This is a fork of the [Dactyl-ManuForm](https://github.com/tshort/dactyl-keyboar
 - Toggle for an extra inner column before the thumbcluster with (nrows-2) rows.
 - Toggle between using the default thumb cluster and mini thumb cluster designed by l4u.
 - Removable controller board / TRRS jack holder as a separate part. This holder is then friction fit into a cutout on the back wall of the case. Designed for common TRRS breakout boards. 
-- Models for both pro-micro and elite-c holders. 
+- Models for both pro-micro and elite-c holders in the [things/](things/) directory. 
 
 ## Generate OpenSCAD and STL models
 
