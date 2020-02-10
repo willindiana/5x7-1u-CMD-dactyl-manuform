@@ -9,7 +9,7 @@ This is a fork of the [Dactyl-ManuForm](https://github.com/tshort/dactyl-keyboar
 - If enabled, the rows which use 1.5u sized keys can be specified.
 - Toggle for an extra row of keys for the outer column(s).
 - Toggle for an extra inner column before the thumbcluster with (nrows-2) rows.
-- Toggle between using the default thumb cluster and mini thumb cluster designed by l4u.
+- Toggle between using the default thumb cluster and mini thumb cluster designed by [l4u](https://github.com/l4u/dactyl-manuform-mini-keyboard).
 - Removable controller board / TRRS jack holder as a separate part. This holder is then friction fit into a cutout on the back wall of the case. Designed for common TRRS breakout boards. 
 - Models for both pro-micro and elite-c holders in the [things/](things/) directory. 
 
