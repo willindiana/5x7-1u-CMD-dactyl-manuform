@@ -936,7 +936,7 @@
     (left-key-place (- cornerrow innercol-offset) -1 web-post)
     (left-key-place (- cornerrow innercol-offset) -1 (translate (wall-locate1 -1 0) web-post))
     (key-place 0 (- cornerrow innercol-offset) web-post-bl)
-    (key-place 0 (- cornerrow innercol-offset) (translate (wall-locate1 -1 0) web-post-bl))
+    (key-place 0 (- cornerrow innercol-offset) (translate (wall-locate1 0 0) web-post-bl))
     (thumb-tl-place thumb-post-tl))
    ; connectors below the inner column to the thumb & second column
    (if (true? inner-column)
