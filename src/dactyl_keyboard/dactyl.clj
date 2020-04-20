@@ -28,7 +28,7 @@
 
 (def extra-row true)                   ; adds an extra bottom row to the outer columns
 (def inner-column true)                ; adds an extra inner column (two less rows than nrows)
-(def mini-thumb false)                  ; toggles between the default thumb cluster and mini thumb cluster
+(def thumb-style "new")                ; toggles between "default", "mini", and "new" thumb cluster
 
 (def column-style :standard)
 
@@ -738,9 +738,197 @@
        (key-place (+ innercol-offset 3) lastrow web-post-tr)
        (key-place (+ innercol-offset 3) cornerrow web-post-br)
        (key-place (+ innercol-offset 4) cornerrow web-post-bl))))))
+       
+;;;;;;;;;;;;;;;;
+;; New Thumb ;;
+;;;;;;;;;;;;;;;;
 
-(if (true? mini-thumb) (def thumb-type minithumb) (def thumb-type thumb))
-(if (true? mini-thumb) (def thumb-connector-type minithumb-connectors) (def thumb-connector-type thumb-connectors))
+(defn newthumb-tl-place [shape]
+  (->> shape
+       (rotate (deg2rad  10) [1 0 0])
+       (rotate (deg2rad -24) [0 1 0])
+       (rotate (deg2rad  10) [0 0 1])
+       (translate thumborigin)
+       (translate [-13 -9.8 4])))
+(defn newthumb-tr-place [shape]
+  (->> shape
+       (rotate (deg2rad  6) [1 0 0])
+       (rotate (deg2rad -24) [0 1 0])
+       (rotate (deg2rad  10) [0 0 1])
+       (translate thumborigin)
+       (translate [-7.5 -29.5 0])))
+(defn newthumb-ml-place [shape]
+  (->> shape
+       (rotate (deg2rad  8) [1 0 0])
+       (rotate (deg2rad -31) [0 1 0])
+       (rotate (deg2rad  14) [0 0 1])
+       (translate thumborigin)
+       (translate [-30.5 -17 -6])))
+(defn newthumb-mr-place [shape]
+  (->> shape
+       (rotate (deg2rad  4) [1 0 0])
+       (rotate (deg2rad -31) [0 1 0])
+       (rotate (deg2rad  14) [0 0 1])
+       (translate thumborigin)
+       (translate [-22.2 -41 -10.3])))
+(defn newthumb-br-place [shape]
+  (->> shape
+       (rotate (deg2rad   2) [1 0 0])
+       (rotate (deg2rad -37) [0 1 0])
+       (rotate (deg2rad  18) [0 0 1])
+       (translate thumborigin)
+       (translate [-37 -46.4 -22])))
+(defn newthumb-bl-place [shape]
+  (->> shape
+       (rotate (deg2rad   6) [1 0 0])
+       (rotate (deg2rad -37) [0 1 0])
+       (rotate (deg2rad  18) [0 0 1])
+       (translate thumborigin)
+       (translate [-47 -23 -19])))
+
+(defn newthumb-1x-layout [shape]
+  (union
+   (newthumb-tr-place (rotate (/ π 2) [0 0 1] shape))
+   (newthumb-mr-place shape)
+   (newthumb-br-place shape)
+   (newthumb-tl-place (rotate (/ π 2) [0 0 1] shape))))
+
+(defn newthumb-15x-layout [shape]
+  (union
+   (newthumb-bl-place shape)
+   (newthumb-ml-place shape)))
+
+(def newthumbcaps
+  (union
+   (newthumb-1x-layout (sa-cap 1))
+   (newthumb-15x-layout (rotate (/ π 2) [0 0 1] (sa-cap 1.5)))))
+
+(def newthumb
+  (union
+   (newthumb-1x-layout single-plate)
+   (newthumb-15x-layout larger-plate-half)
+   (newthumb-15x-layout single-plate)))
+
+(def newthumb-connectors
+  (union
+   (triangle-hulls    ; top two
+    (newthumb-tl-place web-post-tl)
+    (newthumb-tl-place web-post-bl)
+    (newthumb-ml-place thumb-post-tr)
+    (newthumb-ml-place web-post-br))
+   (triangle-hulls
+    (newthumb-ml-place thumb-post-tl)
+    (newthumb-ml-place web-post-bl)
+    (newthumb-bl-place thumb-post-tr)
+    (newthumb-bl-place web-post-br))
+   (triangle-hulls    ; bottom two
+    (newthumb-br-place web-post-tr)
+    (newthumb-br-place web-post-br)
+    (newthumb-mr-place web-post-tl)
+    (newthumb-mr-place web-post-bl))
+   (triangle-hulls
+    (newthumb-mr-place web-post-tr)
+    (newthumb-mr-place web-post-br)
+    (newthumb-tr-place web-post-tl)
+    (newthumb-tr-place web-post-bl))
+   (triangle-hulls
+    (newthumb-tr-place web-post-br)
+    (newthumb-tr-place web-post-bl)
+    (newthumb-mr-place web-post-br))
+   (triangle-hulls    ; between top row and bottom row
+    (newthumb-br-place web-post-tl)
+    (newthumb-bl-place web-post-bl)
+    (newthumb-br-place web-post-tr)
+    (newthumb-bl-place web-post-br)
+    (newthumb-mr-place web-post-tl)
+    (newthumb-ml-place web-post-bl)
+    (newthumb-mr-place web-post-tr)
+    (newthumb-ml-place web-post-br)
+    (newthumb-tr-place web-post-tl)
+    (newthumb-tl-place web-post-bl)
+    (newthumb-tr-place web-post-tr)
+    (newthumb-tl-place web-post-br)
+    )
+   (triangle-hulls    ; top two to the main keyboard, starting on the left
+    (newthumb-ml-place thumb-post-tl)
+    (key-place (+ innercol-offset 0) cornerrow web-post-bl)
+    (newthumb-ml-place thumb-post-tr)
+    (key-place (+ innercol-offset 0) cornerrow web-post-br)
+    (newthumb-tl-place web-post-tl)
+    (key-place (+ innercol-offset 1) cornerrow web-post-bl)
+    (newthumb-tl-place web-post-tr)
+    (key-place (+ innercol-offset 1) cornerrow web-post-br)
+    (key-place (+ innercol-offset 2) lastrow web-post-tl)
+    (key-place (+ innercol-offset 2) lastrow web-post-bl)
+    (newthumb-tl-place web-post-tr)
+    (key-place (+ innercol-offset 2) lastrow web-post-bl)
+    (newthumb-tl-place web-post-br)
+    (key-place (+ innercol-offset 2) lastrow web-post-br)
+    (key-place (+ innercol-offset 3) lastrow web-post-bl)
+    (newthumb-tl-place web-post-br)
+    (newthumb-tr-place web-post-tr))
+   (triangle-hulls
+    (key-place (+ innercol-offset 3) lastrow web-post-tr)
+    (key-place (+ innercol-offset 3) cornerrow web-post-br)
+    (key-place (+ innercol-offset 3) lastrow web-post-tl)
+    (key-place (+ innercol-offset 3) cornerrow web-post-bl))
+   (triangle-hulls
+    (key-place (+ innercol-offset 2) lastrow web-post-tr)
+    (key-place (+ innercol-offset 2) lastrow web-post-br)
+    (key-place (+ innercol-offset 3) cornerrow web-post-bl)
+    (key-place (+ innercol-offset 3) lastrow web-post-bl))
+   (triangle-hulls
+    (newthumb-tr-place web-post-br)
+    (newthumb-tr-place web-post-tr)
+    (key-place (+ innercol-offset 3) lastrow web-post-bl))
+   (triangle-hulls
+    (key-place (+ innercol-offset 1) cornerrow web-post-br)
+    (key-place (+ innercol-offset 2) lastrow web-post-tl)
+    (key-place (+ innercol-offset 2) cornerrow web-post-bl)
+    (key-place (+ innercol-offset 2) lastrow web-post-tr)
+    (key-place (+ innercol-offset 2) cornerrow web-post-br)
+    (key-place (+ innercol-offset 3) cornerrow web-post-bl))
+   (if (true? extra-row)
+     (union
+      (triangle-hulls
+       (key-place (+ innercol-offset 3) lastrow web-post-tr)
+       (key-place (+ innercol-offset 3) lastrow web-post-br)
+       (key-place (+ innercol-offset 4) lastrow web-post-tl)
+       (key-place (+ innercol-offset 4) lastrow web-post-bl))
+      (triangle-hulls
+       (key-place (+ innercol-offset 3) lastrow web-post-tr)
+       (key-place (+ innercol-offset 3) cornerrow web-post-br)
+       (key-place (+ innercol-offset 4) lastrow web-post-tl)
+       (key-place (+ innercol-offset 4) cornerrow web-post-bl)))
+     (union
+      (triangle-hulls
+       (key-place (+ innercol-offset 3) lastrow web-post-tr)
+       (key-place (+ innercol-offset 3) lastrow web-post-br)
+       (key-place (+ innercol-offset 4) cornerrow web-post-bl))
+      (triangle-hulls
+       (key-place (+ innercol-offset 3) lastrow web-post-tr)
+       (key-place (+ innercol-offset 3) cornerrow web-post-br)
+       (key-place (+ innercol-offset 4) cornerrow web-post-bl))))))
+
+
+;switching connectors, switchplates, etc. depending on thumb-style used
+(cond
+(= thumb-style "default") (when true
+(def thumb-type thumb) 
+(def thumb-connector-type thumb-connectors)
+(def thumbcaps-type thumbcaps)))
+
+(cond
+(= thumb-style "new") (when true
+(def thumb-type newthumb) 
+(def thumb-connector-type newthumb-connectors)
+(def thumbcaps-type newthumbcaps)))
+
+(cond
+(= thumb-style "mini") (when true
+(def thumb-type minithumb) 
+(def thumb-connector-type minithumb-connectors)
+(def thumbcaps-type minithumbcaps)))
 
 ;;;;;;;;;;
 ;; Case ;;
@@ -830,6 +1018,71 @@
              )
            (key-wall-brace lastcol extra-cornerrow 0 -1 web-post-br lastcol extra-cornerrow 1 0 web-post-br)
            )))
+
+(def new-thumb-wall
+  (union
+   ; thumb walls
+   (wall-brace newthumb-mr-place  0 -1 web-post-br newthumb-tr-place  0 -1 web-post-br)
+   (wall-brace newthumb-mr-place  0 -1 web-post-br newthumb-mr-place  0 -1 web-post-bl)
+   (wall-brace newthumb-br-place  0 -1 web-post-br newthumb-br-place  0 -1 web-post-bl)
+   (wall-brace newthumb-bl-place -0.3  1 thumb-post-tr newthumb-bl-place  0  1 thumb-post-tl)
+   (wall-brace newthumb-br-place -1  0 web-post-tl newthumb-br-place -1  0 web-post-bl)
+   (wall-brace newthumb-bl-place -1  0 thumb-post-tl newthumb-bl-place -1  0 web-post-bl)
+   ; minithumb corners
+   (wall-brace newthumb-br-place -1  0 web-post-bl newthumb-br-place  0 -1 web-post-bl)
+   (wall-brace newthumb-bl-place -1  0 thumb-post-tl newthumb-bl-place  0  1 thumb-post-tl)
+   ; minithumb tweeners
+   (wall-brace newthumb-mr-place  0 -1 web-post-bl newthumb-br-place  0 -1 web-post-br)
+   (wall-brace newthumb-bl-place -1  0 web-post-bl newthumb-br-place -1  0 web-post-tl)
+   (wall-brace newthumb-tr-place  0 -1 minithumb-post-br (partial key-place (+ innercol-offset 3) lastrow)  0 -1 web-post-bl)
+   ; clunky bit on the top left minithumb connection  (normal connectors don't work well)
+   (bottom-hull
+    (left-key-place (- cornerrow innercol-offset) -1 (translate (wall-locate2 -1 0) web-post))
+    (left-key-place (- cornerrow innercol-offset) -1 (translate (wall-locate3 -1 0) web-post))
+    (newthumb-bl-place (translate (wall-locate2 -0.3 1) thumb-post-tr))
+    (newthumb-bl-place (translate (wall-locate3 -0.3 1) thumb-post-tr)))
+   (hull
+    (left-key-place (- cornerrow innercol-offset) -1 (translate (wall-locate2 -1 0) web-post))
+    (left-key-place (- cornerrow innercol-offset) -1 (translate (wall-locate3 -1 0) web-post))
+    (newthumb-bl-place (translate (wall-locate2 -0.3 1) thumb-post-tr))
+    (newthumb-bl-place (translate (wall-locate3 -0.3 1) thumb-post-tr))
+    (newthumb-ml-place thumb-post-tl))
+   (hull
+    (left-key-place (- cornerrow innercol-offset) -1 web-post)
+    (left-key-place (- cornerrow innercol-offset) -1 (translate (wall-locate1 -1 0) web-post))
+    (left-key-place (- cornerrow innercol-offset) -1 (translate (wall-locate2 -1 0) web-post))
+    (left-key-place (- cornerrow innercol-offset) -1 (translate (wall-locate3 -1 0) web-post))
+    (newthumb-ml-place thumb-post-tl))
+   (hull
+    (left-key-place (- cornerrow innercol-offset) -1 web-post)
+    (left-key-place (- cornerrow innercol-offset) -1 (translate (wall-locate1 -1 0) web-post))
+    (key-place 0 (- cornerrow innercol-offset) web-post-bl)
+    (newthumb-ml-place thumb-post-tl))
+   (hull
+    (newthumb-bl-place thumb-post-tr)
+    (newthumb-bl-place (translate (wall-locate1 -0.3 1) thumb-post-tr))
+    (newthumb-bl-place (translate (wall-locate2 -0.3 1) thumb-post-tr))
+    (newthumb-bl-place (translate (wall-locate3 -0.3 1) thumb-post-tr))
+    (newthumb-ml-place thumb-post-tl))
+   ; connectors below the inner column to the thumb & second column
+   (if (true? inner-column)
+     (union
+      (hull
+       (key-place 0 (dec cornerrow) web-post-bl)
+       (key-place 0 (dec cornerrow) web-post-br)
+       (key-place 0 cornerrow web-post-tr))
+      (hull
+       (key-place 0 cornerrow web-post-tr)
+       (key-place 1 cornerrow web-post-tl)
+       (key-place 1 cornerrow web-post-bl))
+      (hull
+       (key-place 0 (dec cornerrow) web-post-bl)
+       (key-place 0 cornerrow web-post-tr)
+       (key-place 1 cornerrow web-post-bl))
+      (hull
+       (key-place 0 (dec cornerrow) web-post-bl)
+       (key-place 1 cornerrow web-post-bl)
+       (newthumb-ml-place thumb-post-tl))))))
 
 (def mini-thumb-wall
   (union
@@ -963,8 +1216,19 @@
     (thumb-ml-place (translate (wall-locate2 -0.3 1) web-post-tr))
     (thumb-ml-place (translate (wall-locate3 -0.3 1) web-post-tr))
     (thumb-tl-place thumb-post-tl))))
+    
+;switching walls depending on thumb-style used
+(cond
+(= thumb-style "default") (when true
+(def thumb-wall-type default-thumb-wall)))
 
-(if (true? mini-thumb) (def thumb-wall-type mini-thumb-wall) (def thumb-wall-type default-thumb-wall))
+(cond
+(= thumb-style "new") (when true
+(def thumb-wall-type new-thumb-wall)))
+
+(cond
+(= thumb-style "mini") (when true
+(def thumb-wall-type mini-thumb-wall)))
 
 (def case-walls
   (union
@@ -999,17 +1263,23 @@
 (case nrows
       4 (def holder-offset -3.5)
       5 (def holder-offset 0)
-      6 (def holder-offset 2.2)
-      )
+      6 (def holder-offset 3.2))
+      
 (if (and (false? inner-column) (= nrows 6))
   (def holder-offset (- holder-offset 1))
   )
+ 
+(case nrows
+      4 (def notch-offset 3.15)
+      5 (def notch-offset 0)
+      6 (def notch-offset -5.07))
 
 ; Cutout for controller/trrs jack holder
 (def usb-holder-ref (key-position 0 0 (map - (wall-locate2  0  -1) [0 (/ mount-height 2) 0])))
 (def usb-holder-position (map + [(+ 18.8 holder-offset) 18.7 1.3] [(first usb-holder-ref) (second usb-holder-ref) 2]))
-(def usb-holder-cube   (cube 28.666 30 12.6))
-(def usb-holder-space  (translate (map + usb-holder-position [-1.5 (* -1 wall-thickness) 3]) usb-holder-cube))
+(def usb-holder-cube   (cube 28.666 30 19.8))
+(def usb-holder-space  (translate (map + usb-holder-position [-1.5 (* -1 wall-thickness) 6.6]) usb-holder-cube))
+(def usb-holder-notch  (translate (map + usb-holder-position [-1.5 (+ 4.4 notch-offset) 6.6]) (cube 31.366 1.3 19.8)))
 
 ; Screw insert definition & position
 (defn screw-insert-shape [bottom-radius top-radius height]
@@ -1030,12 +1300,12 @@
     (->> (screw-insert-shape bottom-radius top-radius height)
          (translate (map + offset [(first position) (second position) (/ height 2)])))))
 
-(defn screw-insert-all-shapes [bottom-radius top-radius height]
+         (defn screw-insert-all-shapes [bottom-radius top-radius height]
   (union (screw-insert 0 0         bottom-radius top-radius height [7 6.5 0])
-         (screw-insert 0 lastrow   bottom-radius top-radius height [9 -6.5 0])
+         (screw-insert 0 lastrow   bottom-radius top-radius height [13 4 0])
          (screw-insert lastcol lastrow  bottom-radius top-radius height [7 14 0])
          (screw-insert lastcol 0         bottom-radius top-radius height [1 7 0])
-         (screw-insert 2 lastrow         bottom-radius top-radius height [15 3.2 0])))
+         (screw-insert (+ 1 innercol-offset) lastrow         bottom-radius top-radius height [13 -7 0])))
 
 ; Hole Depth Y: 4.4
 (def screw-insert-height 4)
@@ -1105,9 +1375,10 @@
                                       screw-insert-outers
                                       )
                                usb-holder-space
+                               usb-holder-notch
                                screw-insert-holes)
-;                     thumbcaps
-;                     caps
+                    ; thumbcaps-type
+                    ; caps
                    )
                   (translate [0 0 -20] (cube 350 350 40))
                   ))
