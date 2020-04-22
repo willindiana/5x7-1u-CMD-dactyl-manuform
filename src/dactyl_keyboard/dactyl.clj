@@ -1028,14 +1028,14 @@
    (wall-brace newthumb-bl-place -0.3  1 thumb-post-tr newthumb-bl-place  0  1 thumb-post-tl)
    (wall-brace newthumb-br-place -1  0 web-post-tl newthumb-br-place -1  0 web-post-bl)
    (wall-brace newthumb-bl-place -1  0 thumb-post-tl newthumb-bl-place -1  0 web-post-bl)
-   ; minithumb corners
+   ; newthumb corners
    (wall-brace newthumb-br-place -1  0 web-post-bl newthumb-br-place  0 -1 web-post-bl)
    (wall-brace newthumb-bl-place -1  0 thumb-post-tl newthumb-bl-place  0  1 thumb-post-tl)
-   ; minithumb tweeners
-   (wall-brace newthumb-mr-place  0 -1 web-post-bl newthumb-br-place  0 -1 web-post-br)
+   ; newthumb tweeners
+   (wall-brace newthumb-mr-place  0 -1.15 web-post-bl newthumb-br-place  0 -1 web-post-br)
    (wall-brace newthumb-bl-place -1  0 web-post-bl newthumb-br-place -1  0 web-post-tl)
    (wall-brace newthumb-tr-place  0 -1 minithumb-post-br (partial key-place (+ innercol-offset 3) lastrow)  0 -1 web-post-bl)
-   ; clunky bit on the top left minithumb connection  (normal connectors don't work well)
+   ; clunky bit on the top left newthumb connection  (normal connectors don't work well)
    (bottom-hull
     (left-key-place (- cornerrow innercol-offset) -1 (translate (wall-locate2 -1 0) web-post))
     (left-key-place (- cornerrow innercol-offset) -1 (translate (wall-locate3 -1 0) web-post))
