@@ -3,11 +3,9 @@
 This is a fork of [/carbonfet/dactyl-manuform](https://github.com/carbonfet/dactyl-manuform) which is a fork of the [Dactyl-ManuForm](https://github.com/tshort/dactyl-keyboard). The Dactyl-Manuform is a fork of the [Dactyl](https://github.com/adereth/dactyl-keyboard) with the thumb cluster from [ManuForm](https://github.com/jeffgran/ManuForm). Some features from the Dactyl Manuform Mini are kept along with new features added. 
 
 I modified /src/dactyl_keyboard/dactyl.clj to produce a slightly modified thumb cluster and to produce fewer .scad files. These .scad files didn't 
-play too well with my slicer, which is likely a result of my lack of knowledge in terms of clojure. I used Prusaslicer to remove the bottom 1mm of the 
-left and right models. These are in the /stl directory. I also modelled a different controller board holder to accomodate the specific parts that I 
-was able to obtain, which is also stored in the .stl directory. 
+play too well with my slicer when rendered and then exported as .stl using OpenSCAD, which is likely a result of my lack of knowledge in terms of clojure. I used Prusaslicer to remove the bottom 1mm of the left and right models which seemed to remedy the problem. These were then exported as .stl files and are found in the /stl directory. I also modelled a different controller board holder using SolidWorks to accomodate the specific parts that I was able to obtain, which was exported as .stl and is also stored in the /stl directory. 
 
-I plan to create a YouTube Video documenting the build and will post it when I have finished. 
+I plan to create a video documenting the build on my [YouTube Channel](https://www.youtube.com/channel/UChyerhf01zG7VYn24AjJyBA) and will post it when I have finished. 
 
 ## Features
 
@@ -19,7 +17,6 @@ I plan to create a YouTube Video documenting the build and will post it when I h
 - Toggle between using the default thumb cluster, the mini thumb cluster designed by [l4u](https://github.com/l4u/dactyl-manuform-mini-keyboard), and a new thumb cluster.
 - This new thumb cluster uses the same keycaps as the default, but is more compact. The thumb only has to move one position left or right from its neutral position to reach all the keys. 
 - Removable controller board / TRRS jack holder as a separate part. This holder is then friction fit into a cutout on the back wall of the case. Designed for common TRRS breakout boards. 
-- Models for both pro-micro and elite-c holders in the [things/](things/) directory. 
 
 ## Generate OpenSCAD and STL models
 
