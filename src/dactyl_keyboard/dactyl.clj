@@ -22,7 +22,7 @@
 (def centercol 4)                       ; controls left-right tilt / tenting (higher number is more tenting)
 (def tenting-angle (/ π 12))            ; or, change this for more precise tenting control
 
-(def pinky-15u true)                   ; controls whether the outer column uses 1.5u keys
+(def pinky-15u false)                   ; controls whether the outer column uses 1.5u keys
 (def first-15u-row 0)                   ; controls which should be the first row to have 1.5u keys on the outer column
 (def last-15u-row 3)                    ; controls which should be the last row to have 1.5u keys on the outer column
 
@@ -1030,12 +1030,14 @@
     (->> (screw-insert-shape bottom-radius top-radius height)
          (translate (map + offset [(first position) (second position) (/ height 2)])))))
 
+;  HERE WE CAN SET THE SCREW MOUNT HOLES
 (defn screw-insert-all-shapes [bottom-radius top-radius height]
   (union (screw-insert 0 0         bottom-radius top-radius height [7 6.5 0])
          (screw-insert 0 lastrow   bottom-radius top-radius height [9 -6.5 0])
-         (screw-insert lastcol lastrow  bottom-radius top-radius height [7 14 0])
-         (screw-insert lastcol 0         bottom-radius top-radius height [1 7 0])
-         (screw-insert 2 lastrow         bottom-radius top-radius height [15 3.2 0])))
+         (screw-insert lastcol lastrow  bottom-radius top-radius height [-3 14 0])   ; ORIGINAL [7 14 0]
+         (screw-insert lastcol 0         bottom-radius top-radius height [-4 7 0])   ; ORIGINAL [1 7 0]
+         (screw-insert 2 lastrow         bottom-radius top-radius height [15 3.2 0])
+         ))
 
 ; Hole Depth Y: 4.4
 (def screw-insert-height 4)
